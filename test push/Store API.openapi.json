@@ -1,0 +1,2440 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Store API",
+    "description": "Manage pets, orders, purchases, users, and other operations in the pet shop.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "pet"
+    },
+    {
+      "name": "Payments"
+    },
+    {
+      "name": "store"
+    },
+    {
+      "name": "user"
+    }
+  ],
+  "paths": {
+    "/pets/{id}": {
+      "get": {
+        "summary": "Get a pet",
+        "deprecated": false,
+        "description": "Returns a single pet by its unique ID.",
+        "operationId": "getPetById",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the pet.",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                },
+                "example": {
+                  "id": 100,
+                  "category": {
+                    "id": 101,
+                    "name": "dog"
+                  },
+                  "name": "Luna",
+                  "photoUrls": [
+                    "https://loremflickr.com/400/400?lock=2557291284045546",
+                    "https://loremflickr.com/400/400?lock=1603075073377479"
+                  ],
+                  "tags": [
+                    {
+                      "id": 15,
+                      "name": "Dalmatian"
+                    }
+                  ],
+                  "status": "available"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update a pet",
+        "deprecated": false,
+        "description": "Update the details of an existing pet.",
+        "operationId": "updatePet",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the pet.",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pet updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                },
+                "example": {
+                  "id": 57619952,
+                  "category": {
+                    "id": 97056790,
+                    "name": "Mona Kshlerin"
+                  },
+                  "name": "doggie",
+                  "photoUrls": [
+                    "https://loremflickr.com/400/400?lock=190427740691304",
+                    "https://loremflickr.com/400/400?lock=5512522463237719",
+                    "https://loremflickr.com/400/400?lock=1184069713463914"
+                  ],
+                  "tags": [
+                    {
+                      "id": 1230446,
+                      "name": "Timmy Schiller"
+                    },
+                    {
+                      "id": 310656,
+                      "name": "Ricardo Emard PhD"
+                    }
+                  ],
+                  "status": "pending"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete a pet",
+        "deprecated": false,
+        "description": "Delete a pet by its unique ID.",
+        "operationId": "deletePet",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the pet.",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "API key for authorization, if required.",
+            "required": false,
+            "example": "apikey-xxxxx",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pets": {
+      "post": {
+        "summary": "Create a pet",
+        "deprecated": false,
+        "description": "Add a new pet to the store.",
+        "operationId": "addPet",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pet created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The unique identifier for the pet."
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                },
+                "example": {
+                  "id": 100
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "summary": "List pets",
+        "deprecated": false,
+        "description": "Multiple status values can be provided with comma separated strings.",
+        "operationId": "findPetsByStatus",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values to filter pets by (comma separated values are accepted).",
+            "required": false,
+            "example": [
+              "available,pending"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "available",
+                  "pending",
+                  "sold"
+                ],
+                "default": "available"
+              }
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Filter results by tags (comma separated or repeated parameters).",
+            "required": false,
+            "example": [
+              "dog,fish"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 15,
+                    "category": {
+                      "id": 21,
+                      "name": "Marcella Weissnat"
+                    },
+                    "name": "doggie",
+                    "photoUrls": [
+                      "https://loremflickr.com/400/400?lock=3918785348234384",
+                      "https://loremflickr.com/400/400?lock=6202587563304484"
+                    ],
+                    "tags": [
+                      {
+                        "id": 47,
+                        "name": "Celia Breitenberg"
+                      }
+                    ],
+                    "status": "available"
+                  },
+                  {
+                    "id": 71,
+                    "category": {
+                      "id": 46,
+                      "name": "Amber Boyer"
+                    },
+                    "name": "doggie",
+                    "photoUrls": [
+                      "https://loremflickr.com/400/400?lock=2842023516272171"
+                    ],
+                    "tags": [
+                      {
+                        "id": 11,
+                        "name": "Dr. Victoria Zieme"
+                      }
+                    ],
+                    "status": "pending"
+                  },
+                  {
+                    "id": 40,
+                    "category": {
+                      "id": 61,
+                      "name": "Sheryl Boyer"
+                    },
+                    "name": "doggie",
+                    "photoUrls": [
+                      "https://loremflickr.com/400/400?lock=5750598354305884",
+                      "https://loremflickr.com/400/400?lock=2063547589454977"
+                    ],
+                    "tags": [
+                      {
+                        "id": 78,
+                        "name": "Gene Deckow-Lynch"
+                      }
+                    ],
+                    "status": "available"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pets/{petId}/images": {
+      "post": {
+        "summary": "Upload a pet image",
+        "deprecated": false,
+        "description": "Upload an image for the specified pet.",
+        "operationId": "uploadFile",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the pet.",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "additionalMetadata": {
+                    "description": "Additional data to pass to server",
+                    "type": "string",
+                    "example": ""
+                  },
+                  "file": {
+                    "description": "File to upload",
+                    "type": "string",
+                    "format": "binary",
+                    "example": ""
+                  }
+                }
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "code": 3,
+                  "type": "ex dolor",
+                  "message": "Pecus carcer cometes credo."
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/orders/{orderId}/payment": {
+      "post": {
+        "summary": "Pay for an Order",
+        "deprecated": false,
+        "description": "A payment is an attempt to pay for the order, which will confirm it for the user and enable them to get their tickets.",
+        "operationId": "create-order-payment",
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "123456",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderPayment"
+              },
+              "examples": {
+                "Card": {
+                  "value": {
+                    "amount": 49.99,
+                    "currency": "gbp",
+                    "source": {
+                      "object": "card",
+                      "name": "J. Doe",
+                      "number": "4242424242424242",
+                      "cvc": "123",
+                      "exp_month": 12,
+                      "exp_year": 2025,
+                      "address_line1": "123 Fake Street",
+                      "address_line2": "4th Floor",
+                      "address_city": "London",
+                      "address_country": "gb",
+                      "address_post_code": "N12 9XX"
+                    }
+                  },
+                  "summary": "Card Payment"
+                },
+                "Bank": {
+                  "value": {
+                    "amount": 100.5,
+                    "currency": "gbp",
+                    "source": {
+                      "object": "bank_account",
+                      "name": "J. Doe",
+                      "number": "00012345",
+                      "sort_code": "000123",
+                      "account_type": "individual",
+                      "bank_name": "Starling Bank",
+                      "country": "gb"
+                    }
+                  },
+                  "summary": "Bank Account Payment"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Payment successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/OrderPayment"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "links": {
+                          "$ref": "#/components/schemas/Links-Order"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Card Payment",
+                    "value": {
+                      "id": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+                      "amount": 49.99,
+                      "currency": "gbp",
+                      "source": {
+                        "object": "card",
+                        "name": "J. Doe",
+                        "number": "************4242",
+                        "cvc": "123",
+                        "exp_month": 12,
+                        "exp_year": 2025,
+                        "address_country": "gb",
+                        "address_post_code": "N12 9XX"
+                      },
+                      "status": "succeeded",
+                      "links": {
+                        "order": "https://api.example.com/orders/1725ff48-ab45-4bb5-9d02-88745177dedb/payment"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Bank Account Payment",
+                    "value": {
+                      "id": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+                      "amount": 100.5,
+                      "currency": "gbp",
+                      "source": {
+                        "object": "bank_account",
+                        "name": "J. Doe",
+                        "account_type": "individual",
+                        "number": "*********2345",
+                        "sort_code": "000123",
+                        "bank_name": "Starling Bank",
+                        "country": "gb"
+                      },
+                      "status": "succeeded",
+                      "links": {
+                        "order": "https://api.example.com/orders/1725ff48-ab45-4bb5-9d02-88745177dedb"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/inventories": {
+      "get": {
+        "summary": "List all inventories",
+        "deprecated": false,
+        "description": "Returns a map of status codes to quantities.",
+        "operationId": "getInventory",
+        "tags": [
+          "store"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values to filter inventory by (comma separated).",
+            "required": false,
+            "example": [
+              "available, pending"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Create an order",
+        "deprecated": false,
+        "description": "Place a new order in the store.",
+        "operationId": "placeOrder",
+        "tags": [
+          "store"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": 44524671,
+                  "petId": 90180021,
+                  "quantity": 23,
+                  "shipDate": "2025-08-15",
+                  "status": "placed",
+                  "complete": false
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "Get an order",
+        "deprecated": false,
+        "description": "For valid response try integer IDs with value >= 1 and <= 10. Other values will generate exceptions.",
+        "operationId": "getOrderById",
+        "tags": [
+          "store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier for the order.",
+            "required": true,
+            "example": "123",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": 40238436,
+                  "petId": 69923630,
+                  "quantity": 87,
+                  "shipDate": "2024-12-09",
+                  "status": "approved",
+                  "complete": false
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete an order",
+        "deprecated": false,
+        "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors.",
+        "operationId": "deleteOrder",
+        "tags": [
+          "store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier for the order.",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Callback definition example",
+        "deprecated": false,
+        "description": "Endpoint that processes order events and supports callbacks for asynchronous processing.",
+        "operationId": "callbackOrder",
+        "tags": [
+          "store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier for the order.",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "description": "The payment amount"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "The payment currency"
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "description": "Operation timestamp"
+                  },
+                  "callbackUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to call back when processing is complete"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency",
+                  "timestamp",
+                  "callbackUrl"
+                ]
+              },
+              "example": {
+                "amount": 738.05,
+                "currency": "USD",
+                "timestamp": "1758613403",
+                "callbackUrl": "https://example.com/callbacks/orders/1312312"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Callback queued successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [],
+        "callbacks": {
+          "orderProcessed": {
+            "{$request.body#/callbackUrl}": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "requestId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "orderId": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "completed",
+                              "failed"
+                            ]
+                          },
+                          "result": {
+                            "type": "object"
+                          },
+                          "timestamp": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "requestId",
+                          "orderId",
+                          "status",
+                          "timestamp"
+                        ]
+                      },
+                      "example": {
+                        "requestId": "0d7a3836-956f-453b-b633-94a16e720d60",
+                        "orderId": "1312312",
+                        "status": "completed",
+                        "result": {
+                          "transactionId": "tx_12345",
+                          "processingDetails": {
+                            "processor": "payment-gateway-1",
+                            "approvalCode": "AUTH123456"
+                          }
+                        },
+                        "timestamp": "1758613503"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Callback received successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create a user",
+        "deprecated": false,
+        "description": "Create a new user in the system.",
+        "operationId": "createUser",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "username": "Kyle Kihn",
+                "firstName": "Cade",
+                "lastName": "Borer",
+                "email": "Lilyan3@gmail.com",
+                "password": "YFVfBo7nd2Dgh0b",
+                "phone": "(863) 898-2053",
+                "userStatus": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/users/{username}": {
+      "put": {
+        "summary": "Update a user",
+        "deprecated": false,
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUser",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The username.",
+            "required": true,
+            "example": "johndoe",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "id": 51,
+                "username": "Norma Ritchie",
+                "firstName": "Jeffrey",
+                "lastName": "Kris",
+                "email": "Victoria.Kozey59@yahoo.com",
+                "password": "xwrQ4gkAA1SQFmd",
+                "phone": "(863) 406-3542",
+                "userStatus": -1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "Get a user",
+        "deprecated": false,
+        "description": "Retrieve a user by username.",
+        "operationId": "getUserByName",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The username.",
+            "required": true,
+            "example": "johndoe",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": 99,
+                  "username": "Mr. Guadalupe Bailey",
+                  "firstName": "Amelie",
+                  "lastName": "Hackett",
+                  "email": "Murphy26@gmail.com",
+                  "phone": "(632) 437-7270",
+                  "userStatus": 0
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "deprecated": false,
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteUser",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The username.",
+            "required": true,
+            "example": "johndoe",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/login": {
+      "get": {
+        "summary": "Login",
+        "deprecated": false,
+        "description": "Log in a user and generate a session.",
+        "operationId": "loginUser",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The username for login.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "headers": {
+              "X-Expires-After": {
+                "required": false,
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "X-Rate-Limit": {
+                "required": false,
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Logout",
+        "deprecated": false,
+        "description": "Logout the currently logged in user.",
+        "operationId": "logoutUser",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/": {
+      "post": {
+        "summary": "GraphQL example",
+        "deprecated": false,
+        "description": "### Key Features\n\n- **Free and public:** No API key or authentication required.\n- **GraphQL Schema:** Explore relationships between countries, continents, and languages easily.\n- **Use cases:** Testing GraphQL clients, learning schema navigation, building demos, etc.\n\n---\n### Usage Instructions  \nIn the \"success\" debug base under this endpoint, you can directly make requests to the GraphQL API.\n- The query field has already been filled out.\n- Click the refresh button next to \"Schema fetched\" to fetch the schema.\n- Click send to directly send the request and receive a response.\n---\n\n### Endpoint\n\n**GraphQL Endpoint:**  \n```\nhttps://countries.trevorblades.com/\n```\n\n---\n\n### Main Schema Objects\n\n- **Country**\n  - Fields: `code`, `name`, `native` (native name), `phone` (country calling code), `continent`, `capital`, `currency`, `languages`, `emoji`, etc.\n  \n- **Continent**\n  - Fields: `code`, `name`, `countries` (list of countries in the continent)\n  \n- **Language**\n  - Fields: `code`, `name`, `native` (native name)\n  \n---\n\n### Example Queries\n\n**Get all countries with their code and name:**\n```graphql\n{\n  countries {\n    code\n    name\n  }\n}\n```\n\n**Get details of a single country:**\n```graphql\n{\n  country(code: \"JP\") {\n    name\n    capital\n    currency\n    languages {\n      name\n    }\n  }\n}\n```\n\n**List all continents and the countries in each:**\n```graphql\n{\n  continents {\n    name\n    countries {\n      name\n      code\n    }\n  }\n}\n```\n\n---\n\n### How to Use\n\n- You can access the API via your own GraphQL client, curl, or visit the [GraphQL Explorer for Countries API](https://countries.trevorblades.com/) in your browser.\n- Supports introspection, so you can see the full schema and documentation directly in the GraphQL Playground.\n\n---\n\n### Common Use-Cases\n\n- **Frontend prototyping:** For dropdowns (countries, continents, etc.)\n- **Demo apps:** Populate select inputs without backend work.\n- **GraphQL learning:** Practice writing queries and navigating relationships with real data.\n",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The GraphQL query string."
+                  },
+                  "variables": {
+                    "type": "object",
+                    "description": "GraphQL variables for parameterized queries.",
+                    "additionalProperties": true,
+                    "properties": {},
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful GraphQL response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/.sse": {
+      "post": {
+        "summary": "SSE example",
+        "deprecated": false,
+        "description": "When you connect to the server using the POST method, an SSE connection will be automatically established, and the server will send the current time every second.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/calculator.asmx": {
+      "post": {
+        "summary": "SOAP example",
+        "deprecated": false,
+        "description": "Add two integers from the request and return the result in the response.\nThe service is provided by DneOnline.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "text/xml",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "soap:Body": {
+                    "type": "object",
+                    "properties": {
+                      "Add": {
+                        "type": "object",
+                        "properties": {
+                          "intA": {
+                            "type": "string"
+                          },
+                          "intB": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "intA",
+                          "intB"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Add"
+                    ]
+                  }
+                },
+                "required": [
+                  "soap:Body"
+                ],
+                "xml": {
+                  "name": "soap:Envelope"
+                }
+              },
+              "example": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soap:Body>\n        <Add xmlns=\"http://tempuri.org/\">\n            <intA>5</intA>\n            <intB>7</intB>\n        </Add>\n    </soap:Body>\n</soap:Envelope>"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "soap:Body": {
+                      "type": "object",
+                      "properties": {
+                        "AddResponse": {
+                          "type": "object",
+                          "properties": {
+                            "AddResult": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "AddResult"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AddResponse"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "soap:Body"
+                  ],
+                  "xml": {
+                    "name": "soap:Envelope"
+                  }
+                },
+                "example": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n    <soap:Body>\n        <AddResponse xmlns=\"http://tempuri.org/\">\n            <AddResult>12</AddResult>\n        </AddResponse>\n    </soap:Body>\n</soap:Envelope>"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "description": "Information about an animal in the pet store.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique pet identifier."
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the pet",
+            "example": "doggie"
+          },
+          "photoUrls": {
+            "type": "array",
+            "description": "List of photo URLs for the pet.",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "type": "string",
+              "xml": {
+                "name": "photoUrl"
+              }
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags associated with the pet.",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Pet status in the store",
+            "enum": [
+              "available",
+              "pending",
+              "sold"
+            ]
+          }
+        },
+        "xml": {
+          "name": "Pet"
+        }
+      },
+      "User": {
+        "type": "object",
+        "description": "User account information.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the user."
+          },
+          "username": {
+            "type": "string",
+            "description": "The user's username."
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The user's first name."
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The user's last name."
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email address."
+          },
+          "password": {
+            "type": "string",
+            "description": "Hashed user password."
+          },
+          "phone": {
+            "type": "string",
+            "description": "User phone number."
+          },
+          "userStatus": {
+            "type": "integer",
+            "description": "User Status (0: normal, 1: admin, -1: suspended)",
+            "format": "int32",
+            "enum": [
+              0,
+              1,
+              -1
+            ]
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "OrderPayment": {
+        "description": "A payment for an order.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the payment. This will be a unique identifier for the payment, and is used to reference the payment in other objects.",
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "amount": {
+            "description": "Amount intended to be collected by this payment. A positive decimal figure describing the amount to be collected.",
+            "type": "number",
+            "exclusiveMinimum": true,
+            "minimum": 0,
+            "example": 49.99
+          },
+          "currency": {
+            "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.",
+            "type": "string",
+            "enum": [
+              "bam",
+              "bgn",
+              "chf",
+              "eur",
+              "gbp",
+              "nok",
+              "sek",
+              "try"
+            ]
+          },
+          "source": {
+            "description": "The payment source to take the payment from. This can be a card or a bank account. Some of these properties will be hidden on read to protect PII leaking.",
+            "oneOf": [
+              {
+                "title": "Card",
+                "description": "A card (debit or credit) to take payment from.",
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "type": "string",
+                    "const": "card",
+                    "description": "Indicates this object is a 'card'."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Cardholder's full name as it appears on the card.",
+                    "example": "Francis Bourgeois"
+                  },
+                  "number": {
+                    "type": "string",
+                    "description": "The card number, as a string without separators (masked on read).",
+                    "example": "4242424242424242"
+                  },
+                  "cvc": {
+                    "type": "string",
+                    "description": "Card security code, 3 or 4 digits usually on the back.",
+                    "minLength": 3,
+                    "maxLength": 4,
+                    "writeOnly": true,
+                    "example": "123"
+                  },
+                  "exp_month": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Two-digit number representing the card's expiration month.",
+                    "example": 12
+                  },
+                  "exp_year": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Four-digit number representing the card's expiration year.",
+                    "example": 2025
+                  },
+                  "address_line1": {
+                    "type": "string",
+                    "description": "Address line 1 for the billing address.",
+                    "writeOnly": true
+                  },
+                  "address_line2": {
+                    "type": "string",
+                    "description": "Address line 2 for the billing address.",
+                    "writeOnly": true
+                  },
+                  "address_city": {
+                    "type": "string",
+                    "description": "City of the billing address."
+                  },
+                  "address_country": {
+                    "type": "string",
+                    "description": "Country of the billing address (2-letter code)."
+                  },
+                  "address_post_code": {
+                    "type": "string",
+                    "description": "Post/zip code for billing address."
+                  }
+                },
+                "required": [
+                  "name",
+                  "number",
+                  "cvc",
+                  "exp_month",
+                  "exp_year",
+                  "address_country"
+                ]
+              },
+              {
+                "title": "Bank Account",
+                "description": "A bank account to take payment from. Must accept the payment currency.",
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "const": "bank_account",
+                    "type": "string",
+                    "description": "Indicates this object is a 'bank_account'."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The account holder's name."
+                  },
+                  "number": {
+                    "type": "string",
+                    "description": "The account number for the bank account (string)."
+                  },
+                  "sort_code": {
+                    "type": "string",
+                    "description": "The sort code for the bank account (string; 6 digits)."
+                  },
+                  "account_type": {
+                    "enum": [
+                      "individual",
+                      "company"
+                    ],
+                    "type": "string",
+                    "description": "The type of entity that holds the account."
+                  },
+                  "bank_name": {
+                    "type": "string",
+                    "description": "The name of the bank associated with the routing number.",
+                    "example": "Starling Bank"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Two-letter country code (ISO 3166-1 alpha-2)."
+                  }
+                },
+                "required": [
+                  "name",
+                  "number",
+                  "account_type",
+                  "bank_name",
+                  "country"
+                ]
+              }
+            ]
+          },
+          "status": {
+            "description": "The status of the payment, one of `pending`, `succeeded`, or `failed`.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "succeeded",
+              "failed"
+            ],
+            "readOnly": true
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "description": "The pet's category.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique category ID."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category."
+          }
+        },
+        "xml": {
+          "name": "Category"
+        }
+      },
+      "Links-Order": {
+        "description": "The link to the order resource.",
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the related order.",
+            "example": "https://api.example.com/orders/1725ff48-ab45-4bb5-9d02-88745177dedb"
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "description": "Details of an order for a pet.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier of the order."
+          },
+          "petId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier for the pet being ordered."
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to order."
+          },
+          "shipDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Estimated ship date of the order."
+          },
+          "status": {
+            "type": "string",
+            "description": "Order Status",
+            "enum": [
+              "placed",
+              "approved",
+              "delivered"
+            ]
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "Indicates whether the order is complete."
+          }
+        },
+        "xml": {
+          "name": "Order"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "description": "General purpose API response model.",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Application code of the response."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type or category of the response."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable response message."
+          }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "description": "Tag associated with pets.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique tag ID."
+          },
+          "name": {
+            "type": "string",
+            "description": "Tag value."
+          }
+        },
+        "xml": {
+          "name": "Tag"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/bad-request"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "The request is invalid or missing required parameters."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/bad-request",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "The request is invalid or missing required parameters."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/unauthorized"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "You do not have the necessary permissions."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/unauthorized",
+                  "title": "Unauthorized",
+                  "status": 401,
+                  "detail": "You do not have the necessary permissions."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/forbidden"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Forbidden"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "Access is forbidden with the provided credentials."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/forbidden",
+                  "title": "Forbidden",
+                  "status": 403,
+                  "detail": "Access is forbidden with the provided credentials."
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/not-found"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Not Found"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "The specified resource does not exist."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/not-found",
+                  "title": "Not Found",
+                  "status": 404,
+                  "detail": "The specified resource does not exist."
+                }
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/too-many-requests"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Too Many Requests"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 429
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "You have exceeded the rate limit."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/too-many-requests",
+                  "title": "Too Many Requests",
+                  "status": 429,
+                  "detail": "You have exceeded the rate limit."
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "https://example.com/errors/internal-server-error"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "An unexpected error occurred."
+                }
+              }
+            },
+            "examples": {
+              "Example": {
+                "summary": "Example",
+                "value": {
+                  "type": "https://example.com/errors/internal-server-error",
+                  "title": "Internal Server Error",
+                  "status": 500,
+                  "detail": "An unexpected error occurred."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer_token": {
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
+            "scopes": {
+              "read:pets": "read your pets",
+              "write:pets": "modify pets in your account"
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://mock.apidog.com/m1/1043361-1030628-default",
+      "description": "Petstore Env"
+    },
+    {
+      "url": "https://mock.apidog.com/m1/1043361-1030628-defaultCopy",
+      "description": "Petstore Env Copy"
+    }
+  ],
+  "security": []
+}
